@@ -22,6 +22,11 @@ repos:
   rev: 6.1.0
   hooks:
     - id: flake8
+      name: flake8
+      types: [python]
+      args:
+        - --max-line-length=100
+        - --ignore=E722  # bare-except
 - repo: https://github.com/PyCQA/pylint
   rev: v3.0.3
   hooks:
