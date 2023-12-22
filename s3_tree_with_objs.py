@@ -5,6 +5,7 @@ Usage: s3_tree_new.py [OPTIONS]
   S3 objects tree output.
 
 Options:
+
   -c, --cli_profile TEXT  AWS cli profile name set in ~/.aws/config file.
                           [default: default]
   -b, --bucket_name TEXT  S3 bucket name.
@@ -39,14 +40,13 @@ Please confirm if you want to proceed [Y/n]:
     └── size - object_6
 """
 
-import click
-
-from classes.session    import AwsSession
-from classes.cw_metric  import CwMetric
+import click  # pylint: disable=import-error
+from classes.session import AwsSession
+from classes.cw_metric import CwMetric
 
 ELBOW = "└── "
-TEE   = "├── "
-PIPE  = "│   "
+TEE = "├── "
+PIPE = "│   "
 SPACE = "    "
 
 
@@ -93,11 +93,11 @@ def s3_tree(cli_profile: str, bucket_name: str, prefix: str) -> None:
 
     cw = session.client('cloudwatch')
     metric = CwMetric(cw)
-    print(f"\nBucket Metrics:\n")
+    print("\nBucket Metrics:\n")
     metric.display_bucket_size(bucket_name)
     metric.display_object_count(bucket_name)
 
-    print("\nWARNING!!! - Running this script on buckets with large amonunt of")
+    print("\nWARNING!!! - Running this script on buckets with many")
     print("objects could be expensive and might take a while till finish.\n")
 
     if click.confirm('Please confirm if you want to proceed', default=True):
@@ -111,7 +111,13 @@ def s3_tree(cli_profile: str, bucket_name: str, prefix: str) -> None:
 def tree(s3, bucket, prefix, identation):
     """Recursively display s3 objects as a directory tree."""
     objects = list(
-        paginate(s3, 'list_objects_v2', Bucket=bucket, Delimiter='/', Prefix=prefix)
+        paginate(
+            s3,
+            'list_objects_v2',
+            Bucket=bucket,
+            Delimiter='/',
+            Prefix=prefix
+        )
     )
     while objects:
         # Fetch first object to display
@@ -123,8 +129,12 @@ def tree(s3, bucket, prefix, identation):
 
         display_obj(is_prefix, more_objs, identation, obj)
 
-        if is_prefix: # If it is a prefix we want a new branch
-            tree(s3, bucket, obj['Prefix'], next_identation(identation, more_objs))
+        if is_prefix:  # If it is a prefix we want a new branch
+            tree(
+                s3,
+                bucket, obj['Prefix'],
+                next_identation(identation, more_objs)
+            )
 
 
 def get_object(obj: str, idx: int) -> str:
@@ -133,7 +143,7 @@ def get_object(obj: str, idx: int) -> str:
     return obj_split[idx]
 
 
-def display_obj(prefix: bool, more_obj: bool, identation: str, obj: dict) -> None:
+def display_obj(prefix: bool, more_obj: bool, identation: str, obj: dict) -> None:  # pylint: disable=line-too-long # noqa: E501
     """Grab the object to display and choose the right fork type."""
     if prefix:
         obj_to_display = f"PREFIX - {get_object(obj['Prefix'], -2)}/"
@@ -159,4 +169,4 @@ def next_identation(identation: str, more_obj: bool) -> str:
 
 
 if __name__ == '__main__':
-    s3_tree()
+    s3_tree()  # pylint: disable=no-value-for-parameter
