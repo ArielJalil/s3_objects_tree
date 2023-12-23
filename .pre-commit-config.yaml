@@ -42,5 +42,3 @@ repos:
   hooks:
     - id: pylint
       name: Pylint - Static code analyzer
-      args:
-        - --ignore=E0401
