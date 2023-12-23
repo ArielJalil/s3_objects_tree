@@ -3,12 +3,20 @@ repos:
   rev: v4.5.0
   hooks:
     - id: trailing-whitespace
+      name: Trims trailing whitespace
     - id: end-of-file-fixer
+      name: Makes sure files end in a newline
     - id: mixed-line-ending
+      name: Replaces or checks mixed line ending
     - id: check-added-large-files
+      name: Prevent giant files from being committed (500kB)
     - id: detect-aws-credentials
+      name: Checks for AWS secrets
     - id: fix-encoding-pragma
+      name: "Add # -*- coding: utf-8 -*- to the top of python files"
     - id: check-ast
+      name: Check whether files parse as valid python
+
     - id: check-docstring-first
 - repo: https://github.com/PyCQA/docformatter
   rev: v1.7.5
@@ -27,10 +35,12 @@ repos:
       name: Flake8 - Style Guide
       types: [python]
       args:
-        - --max-line-length=100
-        - --ignore=E722  # bare-except
+        - --max-line-length=100  # PyLint default line length
+        - --ignore=E501,E722     # line-too-long, bare-except  ->  PyLint will take care of this
 - repo: https://github.com/PyCQA/pylint
   rev: v3.0.3
   hooks:
     - id: pylint
       name: Pylint - Static code analyzer
+      args:
+        - --ignore=E0401

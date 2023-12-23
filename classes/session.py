@@ -3,9 +3,9 @@
 
 import os
 import sys
-import botocore
-import boto3
 import logging
+import botocore  # pylint: disable=import-error
+import boto3     # pylint: disable=import-error
 
 logger = logging.getLogger("boto_session")
 logger.setLevel(logging.INFO)
@@ -31,8 +31,10 @@ class AwsSession:
         self.region = region
 
     def cli(self) -> object:
-        """Start a session to be used from CLI and check if the credentials are cached already."""
-        cli_cache = os.path.join(os.path.expanduser('~'), '.aws/sso/cache')     # it can be .aws/cli/cache instead
+        """Start a session to be used from CLI and check if the credentials are
+        cached already."""
+        cli_cache = os.path.join(os.path.expanduser('~'), '.aws/sso/cache')
+        # it can be .aws/cli/cache instead
         try:
             session = boto3.Session(profile_name=self.profile,
                                     region_name=self.region)
@@ -40,12 +42,14 @@ class AwsSession:
         except botocore.exceptions.ProfileNotFound as error:
             display_exception(error)
 
-        except Exception as error: # pylint: disable=broad-except
+        except Exception as error:  # pylint: disable=broad-except
             display_exception(error)
 
         try:
-            session._session.get_component('credential_provider').get_provider('assume-role').cache = botocore.credentials.JSONFileCache(cli_cache) # pylint: disable=protected-access
-        except Exception as error: # pylint: disable=broad-except
+            session._session.get_component(  # pylint: disable=protected-access
+                'credential_provider'
+            ).get_provider('assume-role').cache = botocore.credentials.JSONFileCache(cli_cache)
+        except Exception as error:  # pylint: disable=broad-except
             display_exception(error)
 
         return session
@@ -54,7 +58,7 @@ class AwsSession:
         """Start a session to be used in a Lambda funcion."""
         try:
             session = boto3.Session(region_name=self.region)
-        except Exception as error: # pylint: disable=broad-except
+        except Exception as error:  # pylint: disable=broad-except
             display_exception(error)
 
         return session
