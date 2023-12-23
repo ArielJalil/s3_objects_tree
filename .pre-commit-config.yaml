@@ -16,8 +16,8 @@ repos:
       name: "Add # -*- coding: utf-8 -*- to the top of python files"
     - id: check-ast
       name: Check whether files parse as valid python
-
     - id: check-docstring-first
+      name: Checks if code is before the docstring
 - repo: https://github.com/PyCQA/docformatter
   rev: v1.7.5
   hooks:
