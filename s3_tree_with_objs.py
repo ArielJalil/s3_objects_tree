@@ -143,7 +143,7 @@ def get_object(obj: str, idx: int) -> str:
     return obj_split[idx]
 
 
-def display_obj(prefix: bool, more_obj: bool, identation: str, obj: dict) -> None:  # pylint: disable=line-too-long # noqa: E501
+def display_obj(prefix: bool, more_obj: bool, identation: str, obj: dict) -> None:
     """Grab the object to display and choose the right fork type."""
     if prefix:
         obj_to_display = f"PREFIX - {get_object(obj['Prefix'], -2)}/"
