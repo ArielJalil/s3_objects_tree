@@ -12,6 +12,13 @@ CLI command to generate a directory tree like with S3 bucket objects
 
 In order to run this script you'll need to configure your AWS cli credentials
 
+## Consider to install pre-commit
+
+If you are planning to enhance this code it is highly recommended to install [pre-commit](https://pre-commit.com/index.html)
+ to speed up development and keep some standard coding style.
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+
 ## Usage
 
 ```txt
@@ -56,4 +63,5 @@ Please confirm if you want to proceed [Y/n]:
 
 ## Author and Lincense
 
-This script has been written by [Ariel Jall](https://github.com/ArielJalil) and it is released under [GNU 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+This script has been written by [Ariel Jall](https://github.com/ArielJalil) and it is released under
+ [GNU 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
